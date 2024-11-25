@@ -32,7 +32,6 @@ jobs:
 
       - name: Run collectstatic
         run: python manage.py collectstatic --noinput
-        working-directory: PM
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 

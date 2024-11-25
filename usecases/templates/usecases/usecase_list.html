@@ -1,0 +1,13 @@
+<h1>Use Cases</h1>
+<a href="{% url 'usecase_create' %}">Create New Use Case</a>
+<ul>
+    {% for use_case in use_cases %}
+        <li>
+            <a href="{% url 'usecase_update' use_case.id %}">{{ use_case.title }}</a> - {{ use_case.status }}
+            <form method="post" action="{% url 'usecase_delete' use_case.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>

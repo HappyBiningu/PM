@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="max-w-lg bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold text-blue-600 mb-6 text-center">Register</h2>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="space-y-4">
+                {{ form.as_p }}
+                <div class="mt-4">
+                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg shadow hover:bg-blue-700 transition">Register</button>
+                </div>
+            </div>
+        </form>
+
+        <p class="mt-4 text-center text-gray-600">
+            Already have an account? <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Login here</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<h1>Requirements</h1>
+<a href="{% url 'requirement_create' %}">Create New Requirement</a>
+<ul>
+    {% for requirement in requirements %}
+        <li>
+            <a href="{% url 'requirement_update' requirement.id %}">{{ requirement.title }}</a> 
+            - {{ requirement.priority }} - {{ requirement.status }}
+            <form method="post" action="{% url 'requirement_delete' requirement.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+
+
+replace with below
+<li>
+    <strong>{{ requirement.title }}</strong> 
+    ({{ requirement.get_requirement_type_display }}) 
+    - Priority: {{ requirement.priority }} 
+    - Status: {{ requirement.status }}
+    <a href="{% url 'success_criteria_list' %}?requirement={{ requirement.id }}">View Success Criteria</a>
+    <a href="{% url 'requirement_update' requirement.id %}">Edit</a>
+</li>

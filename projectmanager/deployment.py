@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY and Debug settings should be properly managed for different environments
-DEBUG = os.getenv('DEBUG', 'True') == 'True'  # Default to True for local development
+DEBUG = os.getenv('DEBUG', 'True') == 'False'  # Default to True for local development
 SECRET_KEY = os.getenv('MY_SECRET_KEY', 'django-insecure-c^4%i(7u4!y#i2&7%0(@qny*v43i2a!3f+s%*m16uli)^-4h6=')
 
 ALLOWED_HOSTS = [os.getenv('WEBSITE_HOSTNAME', 'localhost')]  # Use environment variable or fallback to localhost

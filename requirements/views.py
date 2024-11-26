@@ -8,6 +8,8 @@ def requirement_list(request):
     requirements = Requirement.objects.filter(created_by=request.user)
     return render(request, 'requirements/requirement_list.html', {'requirements': requirements})
 
+
+
 # Create a new requirement and associate it with the logged-in user
 @login_required
 def requirement_create(request):

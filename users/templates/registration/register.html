@@ -91,11 +91,23 @@
         {% endif %}
 
         <!-- Sign Up Form -->
-        <form method="post">
+        <form method="POST">
             {% csrf_token %}
             <div>
                 <label for="username">{{ form.username.label }}</label>
                 {{ form.username|add_class:"w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none" }}
+            </div>
+            <div>
+                <label for="name">{{ form.name.label }}</label>
+                {{ form.name|add_class:"w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none" }}
+            </div>
+            <div>
+                <label for="surname">{{ form.surname.label }}</label>
+                {{ form.surname|add_class:"w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none" }}
+            </div>
+            <div>
+                <label for="email">{{ form.email.label }}</label>
+                {{ form.email|add_class:"w-full p-3 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:outline-none" }}
             </div>
             <div>
                 <label for="password">{{ form.password.label }}</label>

@@ -22,11 +22,12 @@
             <nav class="flex-1 px-4 space-y-2">
                 <a href="#" class="block py-2 px-4 rounded hover:bg-blue-600">Dashboard Overview</a>
                 <a href="#" class="block py-2 px-4 rounded hover:bg-blue-600">Projects</a>
-                <a href="#" class="block py-2 px-4 rounded hover:bg-blue-600">Requirements</a>
+                <a href="{% url 'requirement_list' %}" class="block py-2 px-4 rounded hover:bg-blue-600">Requirements</a>
                 <a href="#" class="block py-2 px-4 rounded hover:bg-blue-600">Tasks</a>
-                <a href="#" class="block py-2 px-4 rounded hover:bg-blue-600">Use Cases</a>
+                <a href="{% url 'usecase_list' %}" class="block py-2 px-4 rounded hover:bg-blue-600">Use Cases</a>
                 <a href="#" class="block py-2 px-4 rounded hover:bg-blue-600">Profiles</a>
                 <a href="#" class="block py-2 px-4 rounded hover:bg-blue-600">Files</a>
+                <a href="{% url 'login' %}" class="block py-2 px-4 rounded hover:bg-blue-600">Logout</a>
             </nav>
             <footer class="p-4 text-center text-sm">
                 <p>&copy; 2024 Project Management</p>
@@ -37,15 +38,27 @@
         <main class="flex-1 bg-white">
             <!-- Header -->
             <header class="bg-gray-100 p-4 flex items-center justify-between shadow">
-                <h2 class="text-xl font-bold">Welcome, [User]</h2>
+                <h2 class="text-xl font-bold">Welcome, {{ profile.name }} {{ profile.surname }}</h2>
                 <div class="flex items-center space-x-4">
-                    <img src="profile_picture_placeholder.jpg" alt="Profile Picture" class="w-10 h-10 rounded-full">
+                    {% load static %}
+
+{% if profile.profile_picture %}
+    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="w-10 h-10 rounded-full">
+{% else %}
+    <img src="{% static 'images/profile_picture_placeholder.jpg' %}" alt="Profile Picture" class="w-10 h-10 rounded-full">
+{% endif %}
+
                     <div class="text-gray-700">
-                        <p class="font-medium">John Doe</p>
-                        <p class="text-sm">System Analyst</p>
+                        <p class="font-medium">{{ profile.name }} {{ profile.surname }}</p>
+                        <p class="text-sm">{{ profile.get_role_display }}</p>
                     </div>
                 </div>
             </header>
+
+                <!-- Page Loader -->
+    <div id="loader" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div class="animate-spin border-t-4 border-blue-500 border-solid rounded-full w-16 h-16"></div>
+    </div>
 
             <!-- Main Dashboard Content -->
             <div class="p-6">
@@ -132,3 +145,15 @@
 </body>
 
 </html>
+
+
+
+
+<!-- Page Loader jScript -->
+<script>
+    window.onload = function() {
+        setTimeout(function() {
+            document.getElementById("loader").style.display = "none";
+        }, 500);  // 500 milliseconds = 0.5 seconds
+    };
+</script>

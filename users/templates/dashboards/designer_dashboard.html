@@ -42,7 +42,7 @@
                     <i class="fas fa-tasks w-5 h-5 mr-2 text-white"></i>
                     Tasks
                 </a>
-                <a href="#" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
+                <a href="{% url 'usecase_list' %}" class="flex items-center py-2 px-4 rounded hover:bg-blue-600">
                     <i class="fas fa-clipboard-list w-5 h-5 mr-2 text-white"></i>
                     Use Cases
                 </a>
@@ -66,6 +66,7 @@
                     <i class="fas fa-file-alt w-5 h-5 mr-2 text-white"></i>
                     Reports
                 </a>
+                <a href="{% url 'login' %}" class="block py-2 px-4 rounded hover:bg-blue-600">Logout</a>
             </nav>
             
             <footer class="p-4 text-center text-sm">

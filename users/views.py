@@ -98,21 +98,33 @@ def designer_dashboard(request):
 def manager_dashboard(request):
     if request.user.profile.role != 'manager':
         return HttpResponseForbidden("You don't have access to this page.")
-    return render(request, 'dashboards/manager_dashboard.html')
+    
+    context = {
+        'profile': request.user.profile, 
+    }
+    return render(request, 'dashboards/manager_dashboard.html', context)
 
 
 @login_required
 def analyst_dashboard(request):
     if request.user.profile.role != 'analyst':
         return HttpResponseForbidden("You don't have access to this page.")
-    return render(request, 'dashboards/analyst_dashboard.html')
+    
+    context = {
+        'profile': request.user.profile, 
+    }
+    return render(request, 'dashboards/analyst_dashboard.html', context)
 
 
 @login_required
 def developer_dashboard(request):
     if request.user.profile.role != 'developer':
         return HttpResponseForbidden("You don't have access to this page.")
-    return render(request, 'dashboards/developer_dashboard.html')
+    
+    context = {
+        'profile': request.user.profile, 
+    }
+    return render(request, 'dashboards/developer_dashboard.html', context)
 
 
 @login_required

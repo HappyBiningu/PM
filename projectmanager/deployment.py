@@ -1,24 +1,34 @@
 import os
 from urllib.parse import urlparse
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from .settings import *
+from .settings import BASE_DIR
 
-# SECRET_KEY and Debug settings should be properly managed for different environments
-DEBUG = os.getenv('DEBUG', 'True') == 'True'  # Default to True for local development
-SECRET_KEY = os.getenv('MY_SECRET_KEY', 'django-insecure-c^4%i(7u4!y#i2&7%0(@qny*v43i2a!3f+s%*m16uli)^-4h6=')
+ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
+CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
+DEBUG = False
+SECRET_KEY = os.environ['MY_SECRET_KEY']
 
-ALLOWED_HOSTS = [os.getenv('WEBSITE_HOSTNAME', 'localhost')]  # Use environment variable or fallback to localhost
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users.middleware.RoleRequiredMiddleware',
+]
 
-# Database configuration
-if DEBUG:  # Local development uses SQLite
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:  # Production uses PostgreSQL
-    connection_string = os.getenv('AZURE_POSTGRESQL_CONNECTIONSTRING')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Handle connection string parsing
+connection_string = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
+
+# If using URI format (postgresql://user:password@host/dbname)
+if connection_string.startswith('postgresql://'):
     parsed_url = urlparse(connection_string)
     parameters = {
         'dbname': parsed_url.path[1:],  # Remove the leading '/'

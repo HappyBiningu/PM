@@ -32,7 +32,7 @@ connection_string = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
 if connection_string.startswith('postgresql://'):
     parsed_url = urlparse(connection_string)
     parameters = {
-        'dbname': parsed_url.path[1:],  # Remove the leading '/'
+        'dbname': parsed_url.path[1:],  
         'user': parsed_url.username,
         'password': parsed_url.password,
         'host': parsed_url.hostname,
@@ -44,13 +44,10 @@ else:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': parameters.get('dbname'),
-        'USER': parameters.get('user'),
-        'PASSWORD': parameters.get('password'),
-        'HOST': parameters.get('host'),
-        'PORT': parameters.get('port', '5432'),  # Default to 5432 if port is not specified
-        'OPTIONS': {
-            'sslmode': 'require',  # Use SSL mode if needed for Azure
-        },
+        'NAME': parameters['postgres'],
+        'USER': parameters['ndoxhagitp'],
+        'PASSWORD':"{your-password}",
+        'HOST': parameters['sdlcpm-server.postgres.database.azure.com'],
+        'PORT': '5432',
     }
 }

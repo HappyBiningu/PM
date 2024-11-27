@@ -4,11 +4,10 @@ from urllib.parse import urlparse
 from .settings import *
 from .settings import BASE_DIR
 
-SECRET_KEY = os.environ['MY_SECRET_KEY']
-ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME','*']]
+ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
-DEBUG = False
-
+DEBUG = True
+SECRET_KEY = os.environ['MY_SECRET_KEY']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -32,7 +31,7 @@ connection_string = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
 if connection_string.startswith('postgresql://'):
     parsed_url = urlparse(connection_string)
     parameters = {
-        'dbname': parsed_url.path[1:],  
+        'dbname': parsed_url.path[1:],  # Remove the leading '/'
         'user': parsed_url.username,
         'password': parsed_url.password,
         'host': parsed_url.hostname,

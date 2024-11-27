@@ -137,7 +137,7 @@ USE_TZ = True
 STATIC_URL = '/static/'  # URL to access static files
 STATICFILES_DIRS = [BASE_DIR / 'static']  # Directory where your static files are stored
 
-
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'

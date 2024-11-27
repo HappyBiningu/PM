@@ -7,7 +7,7 @@ from .settings import BASE_DIR
 SECRET_KEY = os.environ['MY_SECRET_KEY']
 ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME','*']]
 CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
-DEBUG = True
+DEBUG = False
 
 
 MIDDLEWARE = [
@@ -44,10 +44,9 @@ else:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': parameters['postgres'],
-        'USER': parameters['ndoxhagitp'],
-        'PASSWORD':"{your-password}",
-        'HOST': parameters['sdlcpm-server.postgres.database.azure.com'],
-        'PORT': '5432',
+        'NAME': parameters['dbname'],
+        'USER': parameters['user'],
+        'PASSWORD': parameters['password'],
+        'HOST': parameters['host'],
     }
 }

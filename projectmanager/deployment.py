@@ -1,17 +1,19 @@
+
 import os
 from urllib.parse import urlparse
 
 from .settings import *
 from .settings import BASE_DIR
 
-ALLOWED_HOSTS = [os.environ['WEBSITE_HOSTNAME']]
-CSRF_TRUSTED_ORIGINS = ['https://' + os.environ['WEBSITE_HOSTNAME']]
-DEBUG = True
-SECRET_KEY = os.environ['MY_SECRET_KEY']
+# Read environment variables
+ALLOWED_HOSTS = [os.environ.get('WEBSITE_HOSTNAME', 'localhost')]
+CSRF_TRUSTED_ORIGINS = ['https://' + os.environ.get('WEBSITE_HOSTNAME', 'localhost')]
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+SECRET_KEY = os.environ.get('MY_SECRET_KEY')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For serving static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -24,21 +26,18 @@ MIDDLEWARE = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Handle connection string parsing
+# Azure PostgreSQL connection string
 connection_string = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
 
-# If using URI format (postgresql://user:password@host/dbname)
-if connection_string.startswith('postgresql://'):
-    parsed_url = urlparse(connection_string)
-    parameters = {
-        'dbname': parsed_url.path[1:],  # Remove the leading '/'
-        'user': parsed_url.username,
-        'password': parsed_url.password,
-        'host': parsed_url.hostname,
-    }
-else:
-    # For key=value format (e.g., dbname=mydb user=myuser password=mypassword host=myhost)
-    parameters = {pair.split('=')[0]: pair.split('=')[1] for pair in connection_string.split(' ')}
+# Parse connection string
+parsed_url = urlparse(connection_string)
+parameters = {
+    'dbname': parsed_url.path[1:],  # Remove leading '/'
+    'user': parsed_url.username,
+    'password': parsed_url.password,
+    'host': parsed_url.hostname,
+    'port': parsed_url.port or 5432,  # Use default port if not specified
+}
 
 DATABASES = {
     'default': {
@@ -47,5 +46,9 @@ DATABASES = {
         'USER': parameters['user'],
         'PASSWORD': parameters['password'],
         'HOST': parameters['host'],
+        'PORT': parameters['port'],
+        'OPTIONS': {
+            'sslmode': 'require',  # Enforce SSL
+        },
     }
 }

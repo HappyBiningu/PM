@@ -69,4 +69,4 @@ jobs:
         with:
           app-name: 'SDLCPM'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B10E9B0B69CC4B228B3B0044187A61BB }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
